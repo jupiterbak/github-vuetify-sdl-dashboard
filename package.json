@@ -9,8 +9,11 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "leaflet": "^1.7.1",
     "vue": "^2.6.11",
+    "vue-meta": "^2.4.0",
     "vue-router": "^3.5.3",
+    "vue2-leaflet": "^2.7.1",
     "vuetify": "^2.4.0"
   },
   "devDependencies": {

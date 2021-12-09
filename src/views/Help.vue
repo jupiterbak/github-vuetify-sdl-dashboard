@@ -17,6 +17,10 @@
 </template>
 <script>
 export default {
-  //name: "Landing"
+  name: 'Help',
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: 'Help'
+  }
 };
 </script>

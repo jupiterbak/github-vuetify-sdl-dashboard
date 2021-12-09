@@ -84,10 +84,15 @@
 export default {
   
   name: 'App',
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: 'App',
+    // all titles will be injected into this template
+    titleTemplate: 'Horinzontal Integration | %s'
+  },
   components: {
     //HelloWorld,
-  },
-  
+  }, 
 
   data: () => ({
     //
