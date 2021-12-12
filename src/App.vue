@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-system-bar app>
+    <!-- <v-system-bar app>
       <v-spacer></v-spacer>
 
       <v-icon>mdi-square</v-icon>
@@ -8,7 +8,7 @@
       <v-icon>mdi-circle</v-icon>
 
       <v-icon>mdi-triangle</v-icon>
-    </v-system-bar>
+    </v-system-bar> -->
 
     <v-navigation-drawer
       v-model="drawer"
@@ -54,10 +54,10 @@
     </v-navigation-drawer>
     
 
-    <v-app-bar elevation="4" dense dark app>
+    <v-app-bar elevation="4" dense app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>Siemens Digital Logistics</v-toolbar-title>
     </v-app-bar>
 
 
@@ -108,6 +108,8 @@ export default {
       { title: 'help', icon: 'mdi-help', path: '/help' },
     ],
     mini: true,
+    letestTrackings: [],
+    interval: null
   }),
 };
 </script>

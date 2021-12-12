@@ -46,7 +46,7 @@
               cols="12"
               md="9"
             >
-              <card-inboud-performance></card-inboud-performance>
+              <card-map></card-map>
             </v-col>
           </template>
         </v-row>  
@@ -58,19 +58,22 @@ import CardInboudPerformance from '../components/CardInboundPerformance.vue'
 import CardOutboundPerformance from '../components/CardOutboundPerformance.vue'
 import CardProductionPerformance from '../components/CardProductionPerformance.vue'
 import CardLiveMonitoring from '../components/CardLiveMonitoring.vue'
+import CardMap from '../components/CardMap.vue'
+
 
 export default {
   name: 'Dashboard',
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
-    title: 'Dashboard'
+    title: 'Dashboard',
   },
   components: {
     CardEnvImpact,
     CardProductionPerformance,
     CardInboudPerformance,
     CardOutboundPerformance,
-    CardLiveMonitoring
-  }
+    CardLiveMonitoring,
+    CardMap
+  },
 };
 </script>
