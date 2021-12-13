@@ -39,10 +39,10 @@
       >
         <v-icon
             class="teal lighten-1"
-            large
+            x-large
             dark
           >
-            mdi-tree
+            mdi-earth
           </v-icon>
       </v-list-item-avatar>
     </v-list-item>

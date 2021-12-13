@@ -5,7 +5,7 @@
     <v-list-item three-line>
       <v-list-item-content>
         <v-list-item-title class=" mb-1">
-          Inbound Performance
+          Outbound Performance
         </v-list-item-title>
         <v-divider></v-divider>
         <v-list-item-subtitle>Total Shipments: <code class="font-weight-bold">14k</code></v-list-item-subtitle>
@@ -20,7 +20,7 @@
       >
         <v-icon
             class="brown lighten-1"
-            large
+            x-large
             dark
           >
             mdi-human-dolly

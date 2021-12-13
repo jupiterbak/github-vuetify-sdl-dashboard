@@ -90,8 +90,8 @@
                                       <material-donut-chart :serie="getMaterialDonutSerie(tracking.materials)"></material-donut-chart>
                                   </v-list-item-avatar>
                                   <v-list-item-content>
-                                    <v-list-item-title class="text-sm-body-2">{{ tracking.shipmentid }} </v-list-item-title>
-                                    <v-list-item-subtitle class="text-sm-body-2">Status: <v-chip small label>{{ tracking.status_EN }}</v-chip></v-list-item-subtitle>
+                                    <v-list-item-title class="text-sm-body-2"><a :href="getShipmentDetailLink(tracking.shipmentid)">{{ tracking.shipmentid }} </a></v-list-item-title>
+                                    <v-list-item-subtitle class="text-sm-body-2"><v-chip small label>{{ tracking.status_EN }}</v-chip></v-list-item-subtitle>
                                   </v-list-item-content>
                                   <v-list-item-action>
                                     <v-list-item-action-text >{{ new Date(tracking.shipment.predicted_delivery_date).toLocaleDateString("en-US") }}</v-list-item-action-text>
@@ -174,6 +174,9 @@
         if (risk > 0.8) return 'danger'
         else if (risk > 0.5) return 'orange'
         else return 'teal'
+      },
+      getShipmentDetailLink (shipment_id) {
+        return `/shipments/${shipment_id}`
       },
 
       fortmatResponse(res) {

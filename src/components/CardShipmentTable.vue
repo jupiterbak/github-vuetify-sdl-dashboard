@@ -27,6 +27,10 @@
       @current-items="onItemFiltered"
       class="text-caption"
     >
+      <template v-slot:item.ax4_id="{ item }">
+        <a :href="getShipmentDetailLink(item.ax4_id)">{{item.ax4_id}}</a>
+      </template>
+
       <template v-slot:item.pickup_date="{ item }">
         {{new Date(item.pickup_date).toDateString()}}
       </template>
@@ -79,7 +83,10 @@
         methods: {
             onItemFiltered(items) {
                this.$emit('itemSelected', items);
-            }
+            },
+            getShipmentDetailLink (shipment_id) {
+              return `/shipments/${shipment_id}`
+            },
         }
     }
 </script>

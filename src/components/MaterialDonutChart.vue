@@ -26,7 +26,7 @@ export default {
               '#91ca8c',
               '#f49f42'
             ],
-            radius: ['60%', '100%'],            
+            radius: ['80%', '100%'],            
             data: this.serie,
             avoidLabelOverlap: false,
             emphasis: {
@@ -39,8 +39,11 @@ export default {
               }
             },
             label: {
-              show: false,
-              position: 'center'
+              show: true,
+              position: 'center',
+              fontSize: '8',
+                color: "grey",
+                fontWeight: 'bold',
             },            
             labelLine: {
               show: false

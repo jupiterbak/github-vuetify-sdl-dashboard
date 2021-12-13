@@ -20,7 +20,7 @@
       >
         <v-icon
             class="orange lighten-1"
-            large
+            x-large
             dark
           >
             mdi-truck-fast

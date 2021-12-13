@@ -15,7 +15,8 @@ const routerOptions = [
     { path: "/notifications", component: "Notifications" },
     { path: "/settings", component: "Settings" },
     { path: "/help", component: "Help" },
-    { path: "*", component: "NotFound" }
+    { path: "*", component: "NotFound" },
+    { path: '/shipments/:shipment_id', component: "Shipment" }
 ];
   
 const routes = routerOptions.map(route => {

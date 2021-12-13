@@ -20,7 +20,7 @@
       >
         <v-icon
             class="indigo lighten-1"
-            large
+            x-large
             dark
           >
             mdi-factory
