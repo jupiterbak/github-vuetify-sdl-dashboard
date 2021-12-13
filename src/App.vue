@@ -20,10 +20,12 @@
     >
       <v-list-item class="px-2">
         <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+          <v-icon dark large>
+            mdi-account-circle
+          </v-icon>
         </v-list-item-avatar>
 
-        <v-list-item-title>John Leider</v-list-item-title>
+        <v-list-item-title>Jupiter Bakakeu</v-list-item-title>
 
         <v-btn
           icon

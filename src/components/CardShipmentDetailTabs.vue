@@ -145,7 +145,7 @@
                             <l-map
                                 :zoom="4"
                                 :center="shipment?[shipment.sender.lat, shipment.sender.long]:[49.5896744, 11.0119611]"
-                                style="height: 300px; width: 100%"
+                                style="height: 600px; width: 100%"
                                  elevation="6"
                             >
                                 <l-control-scale position="bottomleft" :imperial="false" :metric="true"></l-control-scale>
@@ -189,7 +189,7 @@
                             cols="12"
                             md="12"
                         >
-                            <v-list-item-subtitle style="height: 300px; width: 100%">
+                            <v-list-item-subtitle style="height: 600px; width: 100%">
                                 <v-data-table dense single-select hide-default-footer
                                     :headers="headers"
                                     :items="materials"
@@ -222,7 +222,7 @@
                                     cols="12"
                                     md="6"
                                 >
-                                    <v-card flat>
+                                    <v-card flat style="height: 600px; width: 100%">
                                         <v-list-item three-line>
                                             <v-list-item-content>
                                                 <v-list-item-title>
@@ -245,7 +245,7 @@
                                     cols="12"
                                     md="6"
                                 >
-                                    <v-card flat>
+                                    <v-card flat >
                                         <v-list-item three-line>
                                             <v-list-item-content>
                                                 <v-list-item-title>
@@ -285,7 +285,7 @@
                             <l-map
                                 :zoom="8"
                                 :center="shipment?[shipment.sender.lat, shipment.sender.long]:[49.5896744, 11.0119611]"
-                                style="height: 300px; width: 100%"
+                                style="height: 600px; width: 100%"
                                  elevation="6"
                             >
                                 <l-control-scale position="bottomleft" :imperial="false" :metric="true"></l-control-scale>

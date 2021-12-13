@@ -17,6 +17,7 @@
     "leaflet": "^1.7.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
+    "random": "^3.0.6",
     "vue": "^2.6.11",
     "vue-axios": "^3.4.0",
     "vue-css-donut-chart": "^2.0.0",

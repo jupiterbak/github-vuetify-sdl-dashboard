@@ -25,6 +25,7 @@ import {
   LegendComponent,
   DataZoomComponent,
   TimelineComponent,
+  MarkLineComponent
 } from 'echarts/components'
 
 use([
@@ -38,7 +39,8 @@ use([
   DataZoomComponent,
   LineChart,
   TimelineComponent,
-  SVGRenderer
+  SVGRenderer,
+  MarkLineComponent
 ]);
 
 Vue.config.productionTip = false

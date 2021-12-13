@@ -34,7 +34,7 @@
               cols="12"
               md="12"
             >
-              <card-delivery-cost :shipments_count="shipments_count" :suppliers_count="suppliers_count" :forwarder_count="forwarder_count" :item_count="item_count" title="Inbound" icon='mdi-truck-fast'></card-delivery-cost>
+              <card-delivery-cost :transport_costs="transport_costs" :delay_costs="delay_costs" :exception_cost="exception_cost" ></card-delivery-cost>
               </v-col>
         </v-row>
       </v-col>
@@ -111,6 +111,7 @@ import CardDeliveryCost from '../components/CardDeliveryCost.vue'
 import CardSupplierReliability from '../components/CardSupplierReliability.vue'
 
 import axiosInstance from "../http-common";
+
 var _ = require('lodash');
 
 function computeTotalMaterial(item) {
@@ -181,7 +182,10 @@ export default {
       shipments_count: "",
       item_count: "",
       forwarder_count: "",
-      suppliers_count: ""
+      suppliers_count: "",
+      transport_costs:0,
+      delay_costs:0,
+      exception_cost:0
     }
   },
   methods: {
@@ -254,11 +258,15 @@ export default {
         return [];
         }
     },
-    async getShipments(limit) {
+    async getShipments(limit, receiver_id) {
         try {
         this.loading = true;
         const res = await axiosInstance.get("shipments?limit=" + limit);
         var shipments = res.data;
+        // Filter the shipment if necessary
+        if(receiver_id && !_.isEmpty(receiver_id)){
+          shipments = _.filter(shipments, function(o) { return o.receiver.receiver_id == receiver_id})
+        }
         this.shipments = shipments;
         // Compute KPIs
         this.shipments_count = this.shipments.length;
@@ -276,11 +284,11 @@ export default {
     },
   },
   async mounted(){
-    try {
-        await this.getShipments(10000);
-    } catch (err) {
-      console.log(err);
-    }
+    await this.getShipments(10000, this.$route.params.receiver_id);
+    this.transport_costs = "4,000.890k";
+    this.delay_costs = "4,000.890k";
+    this.exception_cost = "4,000.890k";
+    this.$forceUpdate();
   }
 };
 </script>

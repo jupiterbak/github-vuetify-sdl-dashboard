@@ -13,7 +13,7 @@
               cols="12"
               md="3"
             >
-              <card-inboud-performance></card-inboud-performance>
+              <card-inboud-performance :shipment_count="shipment_count"></card-inboud-performance>
             </v-col>
             
             <v-col
@@ -28,7 +28,7 @@
               cols="12"
               md="3"
             >
-              <card-outbound-performance></card-outbound-performance>
+              <card-outbound-performance :shipment_count="shipment_count"></card-outbound-performance>
             </v-col>
 
           </template>
@@ -60,7 +60,7 @@ import CardProductionPerformance from '../components/CardProductionPerformance.v
 import CardLiveMonitoring from '../components/CardLiveMonitoring.vue'
 import CardMap from '../components/CardMap.vue'
 
-
+import axiosInstance from "../http-common";
 export default {
   name: 'Dashboard',
   metaInfo: {
@@ -75,5 +75,28 @@ export default {
     CardLiveMonitoring,
     CardMap
   },
+  data () {
+    return {
+      shipments: [],
+      shipment_count:0
+    }
+  },
+  methods: {
+      async getShipments() {
+        try {
+        const res = await axiosInstance.get("shipments?limit=1000000");
+        this.shipments = res.data;
+        this.shipment_count = res.data.length;
+        this.$forceUpdate();
+        return res.data;
+        } catch (err) {
+          console.log(err);
+          return [];
+        }
+    },
+  },
+  async mounted(){
+      await this.getShipments();
+  }
 };
 </script>

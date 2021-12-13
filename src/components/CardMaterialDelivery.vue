@@ -63,18 +63,20 @@ export default {
         return {
             option: {
                 responsive:true,
-                color: ["#121212","#BF360C","#FFA726","#00897B","#1565C0"],
+                color: ["#121212","#BF360C","#FFA726","#00897B","#1565C0","#BF360C"],
                 title : {
                     text: 'Material Risk per Delivery',
                 },
                 toolbox: {
                     feature: {
-                    dataZoom: {
-                        yAxisIndex: false
-                    },
-                    saveAsImage: {
-                        pixelRatio: 2
-                    }
+                        restore: {},
+                        dataZoom: {
+                            yAxisIndex: false
+                        },
+                        saveAsImage: {
+                            pixelRatio: 2
+                        },
+
                     }
                 },
                 tooltip : {
@@ -82,12 +84,12 @@ export default {
                     axisPointer: {
                         type: 'cross'
                     },
-                    backgroundColor: 'rgba(13, 13, 13, 0.7)',
-                        position: function (pos, params, el, elRect, size) {
-                        var obj = { top: 10 };
-                        obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
-                        return obj;
+                    intersect: true,   
+                    borderWidth: 0,
+                    position: function (pt) {
+                        return [pt[0], '10%'];
                     },
+                    backgroundColor:'rgba(255, 255, 255, 0.8)',
                     extraCssText: 'width: 170px'
                 },
                 legend: {},
@@ -99,10 +101,12 @@ export default {
                 ],
                 dataZoom: [
                     {
-                    type: 'inside'
+                        type: 'inside',
+                        start: 95,
+                        end: 120
                     },
                     {
-                    type: 'slider'
+                        type: 'slider'
                     }
                 ],
                 calculable : true,
@@ -142,7 +146,7 @@ export default {
                         smooth:true,
                         itemStyle: {normal: {areaStyle: {type: 'default'}}},
                         data: _.map(this.dataset_values, function(item){
-                            return [item.delivery_date, item.missed]
+                            return [item.delivery_date, item.missed, item.ax4_id]
                         })
                     },
                     {
@@ -153,8 +157,16 @@ export default {
                         smooth:true,
                         itemStyle: {normal: {areaStyle: {type: 'default'}}},
                         data: _.map(this.dataset_values, function(item){
-                            return [item.delivery_date, item.critical]
-                        })
+                            return [item.delivery_date, item.critical, item.ax4_id]
+                        }),
+                        markLine : {
+                            silent: true, // ignore mouse events
+                            label: {show: false},
+                            data : [
+                                // Horizontal Axis (requires valueIndex = 0)
+                                {type: 'average', name: 'Line Marker', valueIndex: 0},
+                            ]
+                        },
                     },
                     {
                         name:'Risk',
@@ -164,7 +176,7 @@ export default {
                         smooth:true,
                         itemStyle: {normal: {areaStyle: {type: 'default'}}},
                         data: _.map(this.dataset_values, function(item){
-                            return [item.delivery_date, item.risk]
+                            return [item.delivery_date, item.risk, item.ax4_id]
                         })
                     },
                     {
@@ -175,8 +187,8 @@ export default {
                         smooth:true,
                         itemStyle: {normal: {areaStyle: {type: 'default'}}},
                         data: _.map(this.dataset_values, function(item){
-                            return [item.delivery_date, item.on_time]
-                        })
+                            return [item.delivery_date, item.on_time, item.ax4_id]
+                        }),
                     },
                     {
                         name:'Early',
@@ -186,9 +198,29 @@ export default {
                         smooth:true,
                         itemStyle: {normal: {areaStyle: {type: 'default'}}},
                         data: _.map(this.dataset_values, function(item){
-                            return [item.delivery_date, item.early]
-                        })
-                    }
+                            return [item.delivery_date, item.early, item.ax4_id]
+                        }),
+                        
+                    },
+                    {
+                        name:'Today',
+                        type:'bar',
+                        barWidth: 5,
+                        stack: 'Ad',
+                        smooth:true,
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        data: _.map(this.dataset_values, function(item){
+                            return [moment(item.delivery_date).endOf('month').fromNow() , 0, item.ax4_id]
+                        }),
+                        markLine : {
+                            silent: true, // ignore mouse events
+                            label: {show: false},
+                            data : [
+                                // Horizontal Axis (requires valueIndex = 0)
+                                {type: 'average', name: 'Line Marker', valueIndex: 0},
+                            ]
+                        },
+                    },
                 ]
             }
         };

@@ -4,12 +4,12 @@
   >
     <v-list-item three-line>
       <v-list-item-content>
-        <v-list-item-title class=" mb-1">
+        <v-list-item-title class="mb-1">
           Outbound Performance
         </v-list-item-title>
         <v-divider></v-divider>
-        <v-list-item-subtitle>Total Shipments: <code class="font-weight-bold">14k</code></v-list-item-subtitle>
-        <v-list-item-subtitle>Delayed Delivery Rate: <code class="font-weight-bold">30.21%</code></v-list-item-subtitle>
+        <v-list-item-subtitle>Total Shipments: <code class="font-weight-bold">{{shipment_count}}</code></v-list-item-subtitle>
+        <v-list-item-subtitle>Delayed Delivery Rate: <code class="font-weight-bold">43.04%</code></v-list-item-subtitle>
         
       </v-list-item-content>
 
@@ -19,11 +19,11 @@
         color="grey"
       >
         <v-icon
-            class="brown lighten-1"
+            class="orange lighten-1"
             x-large
             dark
           >
-            mdi-human-dolly
+            mdi-truck-fast
           </v-icon>
       </v-list-item-avatar>
     </v-list-item>
@@ -31,5 +31,7 @@
 </template>
 
 <script>
-  export default {}
+  export default {
+    props:["shipment_count"],    
+}
 </script>

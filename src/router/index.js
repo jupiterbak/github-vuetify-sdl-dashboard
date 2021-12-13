@@ -8,6 +8,7 @@ Vue.use(Meta)
 const routerOptions = [
     { path: "/", component: "Home" },
     { path: "/inbound", component: "Inbound" },
+    { path: '/inbound/:receiver_id', component: "Inbound" },
     { path: "/production", component: "Production" },
     // { path: "/outbound", component: "Home", meta: { requiresAuth: true } },
     { path: "/outbound", component: "Outbound" },

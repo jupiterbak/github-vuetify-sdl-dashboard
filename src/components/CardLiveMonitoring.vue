@@ -43,7 +43,7 @@
             <span>Settings</span>
         </v-tooltip>
     </v-toolbar>
-    <v-container style="height: 640px;" v-if="loading">
+    <v-container style="height: 640px;" v-if="init_loading">
       <v-row
         class="fill-height"
         align-content="center"
@@ -157,6 +157,7 @@
     },
     data: () => ({
       loading: true,
+      init_loading: true,
       trackings: [],
       headers: [
         {
@@ -168,6 +169,7 @@
         { text: 'Risk', value: 'risk' },
         { text: 'MaterialNr.', value: 'material_id' },
       ],
+      timer: ''
     }),
     methods: {
       getColor (risk) {
@@ -186,7 +188,7 @@
       async getLatestTrackingStatuses() {
         try {
           this.loading = true;
-          const res = await axiosInstance.get("trackings?limit=10");
+          const res = await axiosInstance.get("trackings?limit=1000");
           var trackings = res.data;
           for (let index = 0; index < trackings.length; index++) {
             const tracking = trackings[index];
@@ -234,10 +236,18 @@
             ];
             return materials && materials.length == 0 ? [] : serie;
       },
+      cancelAutoUpdate () {
+          clearInterval(this.timer);
+      }
     },
     async mounted(){
-
+      this.init_loading = true;
       await this.getLatestTrackingStatuses();
+      this.init_loading = false;
+      this.timer = setInterval(this.getLatestTrackingStatuses, 60000);
+    },
+    beforeDestroy () {
+      this.cancelAutoUpdate();
     }
   }
 </script>

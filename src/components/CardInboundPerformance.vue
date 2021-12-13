@@ -8,7 +8,7 @@
           Inbound Performance
         </v-list-item-title>
         <v-divider></v-divider>
-        <v-list-item-subtitle>Total Shipments: <code class="font-weight-bold">56k</code></v-list-item-subtitle>
+        <v-list-item-subtitle>Total Shipments: <code class="font-weight-bold">{{shipment_count}}</code></v-list-item-subtitle>
         <v-list-item-subtitle>Delayed Delivery Rate: <code class="font-weight-bold">43.04%</code></v-list-item-subtitle>
         
       </v-list-item-content>
@@ -31,5 +31,7 @@
 </template>
 
 <script>
-  export default {}
+  export default {
+    props:["shipment_count"],    
+}
 </script>

@@ -49,53 +49,124 @@
               :attribution="tileProvider.attribution"
               layer-type="base"
             />
-           <l-layer-group v-for="(inbound,i) in inbounds" :key="i" ref="inbound">
-              <l-feature-group  ref="supplier">
-                <l-tooltip > <span> Yay I was opened by {{inbound.sender.name}}</span></l-tooltip>
-                <l-polyline :lat-lngs="inbound.polyline" :weight="2" :opacity="0.2" :color="'#999999'" :visible="false"></l-polyline>
+            
+            <l-layer-group v-for="(inbound,i) in inbounds" :key="i" ref="network">
+              <l-feature-group  ref="inbound_" :visible="inbound_selected">                
+                <l-polyline :lat-lngs="inbound.polyline" :weight="getVolumeScale(inbounds, i, 5)" :opacity="0.4" :color="'#BF360C'" >
+                  <tooltip-map-sender :inbound="inbound"> </tooltip-map-sender>
+                </l-polyline>
                 <l-circle
                   :lat-lng="[inbound.sender.lat, inbound.sender.long]"
-                  :radius="15000"
+                  :radius="getVolumeScale(inbounds, i, 30000)"
                   fill
-                  :fillColor="'#999999'"
+                  :fillColor="'#BF360C'"
                   :stroke="false"
                   :fillOpacity="0.5"
-                />
+                >
+                  <l-tooltip > <tooltip-map-sender :inbound="inbound"> </tooltip-map-sender> </l-tooltip>
+                  <l-popup > <tooltip-map-sender :inbound="inbound"> </tooltip-map-sender> </l-popup>
+                </l-circle>
+                <l-circle
+                  :lat-lng="[inbound.sender.lat, inbound.sender.long]"
+                  :radius="getVolumeScale(inbounds, i, 15000)"
+                  fill
+                  :fillColor="'#FFAB00'"
+                  :stroke="false"
+                  :fillOpacity="0.5"
+                >
+                  <l-tooltip > <tooltip-map-sender :inbound="inbound"> </tooltip-map-sender></l-tooltip>
+                  <l-popup > <tooltip-map-sender :inbound="inbound"> </tooltip-map-sender> </l-popup>
+                </l-circle>
+              </l-feature-group>
+              <l-feature-group  ref="_production_site">                
+                <l-circle
+                  :lat-lng="[inbound.receiver.lat, inbound.receiver.long]"
+                  :radius="30000"
+                  fill
+                  :fillColor="'#26a69a '"
+                  :stroke="false"
+                  :fillOpacity="0.5"
+                >
+                  <l-tooltip > <tooltip-map-site :receiver="inbound.receiver"> </tooltip-map-site></l-tooltip>
+                  <l-popup > <tooltip-map-site :receiver="inbound.receiver"> </tooltip-map-site> </l-popup>
+                </l-circle>
+
                 <l-circle
                   :lat-lng="[inbound.receiver.lat, inbound.receiver.long]"
                   :radius="15000"
                   fill
-                  :fillColor="'#999999'"
+                  :fillColor="'#FFAB00'"
                   :stroke="false"
                   :fillOpacity="0.5"
-                />
+                >
+                  <l-tooltip > <tooltip-map-site :receiver="inbound.receiver"> </tooltip-map-site></l-tooltip>
+                  <l-popup > <tooltip-map-site :receiver="inbound.receiver"> </tooltip-map-site> </l-popup>
+                </l-circle>
               </l-feature-group>
             </l-layer-group>
-            <!-- <l-layer-group v-for="(outbound,j) in outbounds" :key="j" ref="outbound">
-              <l-feature-group  ref="customers">
-                <l-tooltip > <span> Yay I was opened by {{outbound.sender.name}}</span></l-tooltip>
-                <l-polyline :lat-lngs="outbound.polyline" :weight="2" :opacity="0.2" :color="colors[j]"></l-polyline>
-                <l-circle
-                  :lat-lng="[outbound.sender.lat, outbound.sender.long]"
-                  :radius="20000"
-                  fill
-                  :fillColor="colors[j]"
-                  :stroke="false"
-                  :fillOpacity="0.5"
-                />
+            <l-layer-group v-for="(outbound,i) in outbounds" :key="i" ref="o_network">
+              <l-feature-group  ref="outbound_" :visible="outbound_selected">                
+                <l-polyline :lat-lngs="outbound.polyline" :weight="getVolumeScale(outbounds, i, 5)" :opacity="0.4" :color="'#1A237E'" >
+                  <l-tooltip > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver></l-tooltip>
+                  <l-popup > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver> </l-popup>
+                </l-polyline>
                 <l-circle
                   :lat-lng="[outbound.receiver.lat, outbound.receiver.long]"
-                  :radius="20000"
+                  :radius="(outbounds, 30000, 5)"
                   fill
-                  :fillColor="colors[j]"
+                  :fillColor="'#1A237E'"
                   :stroke="false"
                   :fillOpacity="0.5"
-                />
-              </l-feature-group> 
-            </l-layer-group>-->
-            <l-control-layers position="topright"  >
-
-            </l-control-layers>
+                >
+                  <l-tooltip > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver></l-tooltip>
+                  <l-popup > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver> </l-popup>
+                </l-circle>
+                <l-circle
+                  :lat-lng="[outbound.receiver.lat, outbound.receiver.long]"
+                  :radius="15000"
+                  fill
+                  :fillColor="'#FFAB00'"
+                  :stroke="false"
+                  :fillOpacity="0.5"
+                >
+                  <l-tooltip > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver></l-tooltip>
+                  <l-popup > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver> </l-popup>
+                </l-circle>
+              </l-feature-group>
+            </l-layer-group>
+            
+            <l-control position="topright" >
+              <v-form ref="form">
+                <v-select
+                  :items="production_sites"
+                  item-text="text"
+                  item-value="id"
+                  label="Production Site"
+                  persistent-hint
+                  hide-details
+                  clearable
+                  single-line chips
+                  class="text-sm-caption"
+                  @change="siteSelected"                 
+                ></v-select>
+                <v-checkbox
+                  label="Inbound"
+                  v-model="inbound_selected"
+                  hide-details
+                  clearable class="text-sm-caption"
+                  dense
+                ></v-checkbox>
+                <v-checkbox
+                  label="Outbound"
+                  v-model="outbound_selected"
+                  hide-details
+                  clearable
+                  dense class="text-sm-caption"
+                ></v-checkbox>
+              </v-form>
+            </l-control>
+            <l-control-layers position="bottomright"  ></l-control-layers>
+            
         </l-map>
     </v-img>
 
@@ -105,8 +176,11 @@
 
 <script>
 import { latLng } from "leaflet";
-import { LMap, LTileLayer, LControlLayers, LControlScale, LLayerGroup, LTooltip, LCircle, LPolyline, LFeatureGroup } from "vue2-leaflet";
+import { LMap, LTileLayer, LControlLayers, LControl, LControlScale, LLayerGroup, LTooltip, LCircle, LPolyline, LFeatureGroup, LPopup} from "vue2-leaflet";
 import axiosInstance from "../http-common";
+import TooltipMapSender from "../components/TooltipMapSender.vue"
+import TooltipMapReceiver from "../components/TooltipMapReceiver.vue"
+import TooltipMapSite from "../components/TooltipMapSite.vue"
 var _ = require('lodash');
 
 export default {
@@ -120,11 +194,20 @@ export default {
     LTooltip,
     LCircle,
     LPolyline,
-    LFeatureGroup
+    LFeatureGroup,
+    LControl,
+    TooltipMapSender,
+    TooltipMapReceiver,
+    TooltipMapSite,
+    LPopup
   },
   data() {
     return {
       loading: true,
+      inbound_selected: false,
+      outbound_selected: false,
+      production_sites: [],
+      production_site_selected: 0,
       zoom: 6,
       path: "/images/",
       center: [49.5896744, 11.0119611],
@@ -155,20 +238,35 @@ export default {
             'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
         },
       ],
-      colors: ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
-      '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-      '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
-      '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-      '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
-      '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-      '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
-      '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-      '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
-      '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF']
     };
   },
   methods: {
-      async getSuppliers() {
+      async getSuppliers(selected_item) {
+        try {
+          
+          const res = await axiosInstance.get(`inbound/39041/${encodeURIComponent(selected_item)}`);
+          var inbounds = res.data;
+          for (let j = 0; j < inbounds.length; j++) {
+            const inbound = inbounds[j]; 
+            _.set(inbounds, '[' + j+ '].polyline', [[inbound.sender.lat, inbound.sender.long], [inbound.receiver.lat, inbound.receiver.long]]);
+          }
+          this.inbounds = inbounds;
+          
+          const res_out = await axiosInstance.get(`outbound/39041/${encodeURIComponent(selected_item)}`);
+          var outbounds = res_out.data;
+          for (let j = 0; j < outbounds.length; j++) {
+            const outbound = outbounds[j]; 
+            _.set(outbounds, '[' + j+ '].polyline', [[outbound.sender.lat, outbound.sender.long], [outbound.receiver.lat, outbound.receiver.long]]);
+          }
+          this.outbounds = outbounds;
+          
+                   
+          this.$forceUpdate();
+        } catch (err) {
+          return [];
+        }
+      },
+      async populateProductionSite() {
         try {
           this.loading = true;
           const res = await axiosInstance.get("inbound/39041");
@@ -178,24 +276,37 @@ export default {
             _.set(inbounds, '[' + j+ '].polyline', [[inbound.sender.lat, inbound.sender.long], [inbound.receiver.lat, inbound.receiver.long]]);
           }
           this.inbounds = inbounds;
-
-          const res_out = await axiosInstance.get("outbound/39041");
-          var outbounds = res_out.data;
-          for (let j = 0; j < outbounds.length; j++) {
-            const outbound = outbounds[j]; 
-            _.set(outbounds, '[' + j+ '].polyline', [[outbound.sender.lat, outbound.sender.long], [outbound.receiver.lat, outbound.receiver.long]]);
-          }
-          this.outbounds = outbounds;
-
-          this.loading = false;          
-          this.$forceUpdate();
+          // Extract Production Sites
+          this.production_sites = _.map(this.inbounds, (_inb) => {
+            return {
+                  text: `${_inb.receiver.name}-${_inb.receiver.city}-${_inb.receiver.country}`,
+                  id: _inb.receiver.receiver_id
+                } 
+          });
         } catch (err) {
           return [];
         }
       },
+      clickHandler () {
+        console.log('and mischievous')
+      },
+      async siteSelected(selected_item) {
+        await this.getSuppliers(selected_item);
+      },
+      scaleTo100(xs){
+          const factor = 100 / 10 ** (Math .ceil (Math .log10 (Math .max (...xs))));
+          return xs .map (x => x * factor);
+      },
+      getVolumeScale(total_arr, i, max) {
+        var states = total_arr.map(item => item.transaction_quantity);
+        var rslts = this.scaleTo100(states);
+        return Math.ceil(max * (rslts[i]/100));
+      }
     },
     async mounted(){
-      await this.getSuppliers();
+      this.loading = true;
+      await this.populateProductionSite();
+      this.loading = false;
     }
 };
 </script>

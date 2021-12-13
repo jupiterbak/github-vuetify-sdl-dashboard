@@ -32,11 +32,11 @@
                 </v-icon>
             </v-list-item-avatar>
             <v-list-item-content class="pa-0">
-              <v-list-item-subtitle class="font-weight-semibold text-sm mb-1">Transport Costs</v-list-item-subtitle>
-              <v-list-item-title class="text-lg-h6 ">$48,568.20</v-list-item-title>
+              <v-list-item-subtitle class="font-weight-semibold text-sm mb-1">Manufacturing Costs</v-list-item-subtitle>
+              <v-list-item-title class="text-lg-h6 ">$100,568.20</v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
-                <h3 class="text-base font-weight-bold error--text">+ 12%</h3>
+                <h3 class="text-base font-weight-bold success--text">- 1.03%</h3>
                 
             </v-list-item-action>
           </v-list-item>
@@ -60,15 +60,15 @@
                   large
                   dark
                 >
-                  mdi-clock-outline
+                  mdi-semantic-web
                 </v-icon>
             </v-list-item-avatar>
             <v-list-item-content class="pa-0">
-              <v-list-item-subtitle class="font-weight-semibold text-sm mb-1">Delay Costs</v-list-item-subtitle>
-              <v-list-item-title class="text-lg-h6 ">$1,328.20</v-list-item-title>
+              <v-list-item-subtitle class="font-weight-semibold text-sm mb-1">Direct Materials</v-list-item-subtitle>
+              <v-list-item-title class="text-lg-h6 ">$50,328.20</v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
-                <h3 class="text-base font-weight-bold error--text">+ 22%</h3>
+                <h3 class="text-base font-weight-bold error--text">+ 12.02%</h3>
                 
             </v-list-item-action>
           </v-list-item>
@@ -92,15 +92,47 @@
                   large
                   dark
                 >
-                  mdi-alert-circle-outline
+                  mdi-account-hard-hat
                 </v-icon>
             </v-list-item-avatar>
             <v-list-item-content class="pa-0">
-              <v-list-item-subtitle class="font-weight-semibold text-sm mb-1">Exeption Costs</v-list-item-subtitle>
-              <v-list-item-title class="text-lg-h6 ">$2,100.70</v-list-item-title>
+              <v-list-item-subtitle class="font-weight-semibold text-sm mb-1">Direct Labour</v-list-item-subtitle>
+              <v-list-item-title class="text-lg-h6 ">$25,100.70</v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
-                <h3 class="text-base font-weight-bold error--text">+ 02%</h3>
+                <h3 class="text-base font-weight-bold success--text">- 2.04%</h3>
+                
+            </v-list-item-action>
+          </v-list-item>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col
+          cols="12"
+          md="12"
+        >
+          <v-list-item>
+            <v-list-item-avatar
+              tile
+              size="46"
+              color="grey"
+              class="rounded"
+              
+            >
+              <v-icon
+                  class="grey darken-1"
+                  large
+                  dark
+                >
+                  mdi-cog
+                </v-icon>
+            </v-list-item-avatar>
+            <v-list-item-content class="pa-0">
+              <v-list-item-subtitle class="font-weight-semibold text-sm mb-1">Manufacturing Overhead</v-list-item-subtitle>
+              <v-list-item-title class="text-lg-h6 ">$25,139.70</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+                <h3 class="text-base font-weight-bold success--text">- 10.04%</h3>
                 
             </v-list-item-action>
           </v-list-item>

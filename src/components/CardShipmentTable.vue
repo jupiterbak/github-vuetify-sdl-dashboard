@@ -9,7 +9,7 @@
             height="2"
             ></v-progress-linear>
     <v-card-title class="text-h6">
-      All Transports
+      All Shipments
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
