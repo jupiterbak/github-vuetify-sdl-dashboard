@@ -5,7 +5,7 @@
         cols="12"
         md="12"
       >
-        <card-page-title title="Production" icon='mdi-factory'></card-page-title>
+        <card-page-title title="Production (Ongoing)" icon='mdi-factory'></card-page-title>
       </v-col>
     </v-row>
     <v-row>
@@ -26,7 +26,7 @@
               cols="12"
               md="12"
             >
-              <card-delivery-statistics :loading="loading" :shipments_count="shipments_count" :suppliers_count="suppliers_count" :forwarder_count="forwarder_count" :item_count="item_count" title="Inbound" icon='mdi-truck-fast'></card-delivery-statistics>
+              <card-production-oee :loading="loading" :dataset_values="dataset_values" :key="childKey" ></card-production-oee>
             </v-col>
         </v-row>
         <v-row>
@@ -34,7 +34,7 @@
               cols="12"
               md="12"
             >
-              <card-supplier-reliability :loading="loading" :dataset_values="dataset_values" :key="childKey" ></card-supplier-reliability>
+              <card-delivery-statistics :loading="loading" :shipments_count="shipments_count" :suppliers_count="suppliers_count" :forwarder_count="forwarder_count" :item_count="item_count" title="Inbound" icon='mdi-truck-fast'></card-delivery-statistics>
             </v-col>
         </v-row>
       </v-col>
@@ -86,7 +86,7 @@
             cols="12"
             md="12"
           >
-            <card-material-delivery :dataset_values="dataset_values" :loading="loading" :key="childKey"></card-material-delivery>
+            <card-material-stock :dataset_values="dataset_values" :loading="loading" :key="childKey"></card-material-stock>
           </v-col>
         </v-row>
         <v-row>
@@ -94,7 +94,7 @@
             cols="12"
             md="12"
           >
-            <card-shipment-table :loading="loading" :shipments="shipments" :trackings="trackings" @itemSelected="onNewItems"></card-shipment-table>
+            <card-production-schedule :loading="loading" :shipments="shipments" :trackings="trackings" @itemSelected="onNewItems"></card-production-schedule>
           </v-col>
         </v-row>
       </v-col>
@@ -104,11 +104,11 @@
 <script>
 import CardPageTitle from '../components/CardPageTitle.vue'
 import CardMaterialRisk from '../components/CardMaterialRisk.vue'
-import CardShipmentTable from '../components/CardShipmentTable.vue'
-import CardMaterialDelivery from '../components/CardMaterialDelivery.vue'
+import CardProductionSchedule from '../components/CardProductionSchedule.vue'
+import CardMaterialStock from '../components/CardMaterialStock.vue'
 import CardDeliveryStatistics from '../components/CardDeliveryStatistics.vue'
 import CardProductionCosts from '../components/CardProductionCosts.vue'
-import CardSupplierReliability from '../components/CardSupplierReliability.vue'
+import CardProductionOee from '../components/CardProductionOEE.vue'
 
 import axiosInstance from "../http-common";
 
@@ -159,11 +159,11 @@ export default {
   components: {
     CardPageTitle,
     CardMaterialRisk,
-    CardShipmentTable,
-    CardMaterialDelivery,
+    CardProductionSchedule,
+    CardMaterialStock,
     CardDeliveryStatistics,
     CardProductionCosts,
-    CardSupplierReliability
+    CardProductionOee,
   },
   data () {
     return {
@@ -288,6 +288,8 @@ export default {
     this.transport_costs = "4,000.890k";
     this.delay_costs = "4,000.890k";
     this.exception_cost = "4,000.890k";
+    this.$forceUpdate();
+    this.onNewItems(this.shipments);
     this.$forceUpdate();
   }
 };

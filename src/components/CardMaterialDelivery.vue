@@ -45,7 +45,7 @@
                     class="text-sm-body-2 text-center"
                     cols="12"
                     >
-                        <v-chart style="height: 300px; width: 100%" class="chart mx-auto" :option="option" theme="dark"/>
+                        <v-chart style="height: 300px; width: 100%" class="chart mx-auto" :option="option" theme="dark" autoresize/>
                     </v-col>
                 </v-row>
             </v-container>
