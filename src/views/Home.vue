@@ -40,13 +40,13 @@
               cols="12"
               md="3"
             >
-              <card-live-monitoring></card-live-monitoring>
+              <card-live-monitoring ></card-live-monitoring>
             </v-col>
             <v-col
               cols="12"
               md="9"
             >
-              <card-map></card-map>
+              <card-map class="fill-height"></card-map>
             </v-col>
           </template>
         </v-row>  

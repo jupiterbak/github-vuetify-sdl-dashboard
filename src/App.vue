@@ -105,7 +105,7 @@ export default {
       { title: 'Production', icon: 'mdi-factory', path: '/production' },
       { title: 'Outbound Logistics', icon: 'mdi-human-dolly', path: '/outbound' },
       // { title: 'Operation Cockpit', icon: 'mdi-view-dashboard', path: '/cockpit' },
-      // { title: 'Notification Center', icon: 'mdi-bell-ring', path: '/notifications' },
+      { title: 'Notification Center', icon: 'mdi-bell-ring', path: '/notifications' },
       // { title: 'Setting', icon: 'mdi-cog', path: '/settings' },
       { title: 'help', icon: 'mdi-help', path: '/help' },
     ],

@@ -230,7 +230,7 @@
         var serie = [
               { value: _.reduce(materials, function(sum, item) { return item.risk>0.9 && item.risk<=1.0 ?sum + 1:sum;}, 0), name: "Missed" },
               { value: _.reduce(materials, function(sum, item) { return item.risk>0.8 && item.risk<=0.9?sum + 1:sum;}, 0), name: "At Risk" },
-              { value:_.reduce(materials, function(sum, item) { return item.risk>0.6 && item.risk<=0.8?sum + 1:sum;}, 0), name: "Critical" },
+              { value: _.reduce(materials, function(sum, item) { return item.risk>0.6 && item.risk<=0.8?sum + 1:sum;}, 0), name: "Critical" },
               { value: _.reduce(materials, function(sum, item) { return item.risk>0.1 && item.risk<=0.6?sum + 1:sum;}, 0), name: "On Time" },
               { value: _.reduce(materials, function(sum, item) { return item.risk>=0.0 && item.risk<=0.1?sum + 1:sum;}, 0), name: "Early" }
             ];
@@ -244,7 +244,7 @@
       this.init_loading = true;
       await this.getLatestTrackingStatuses();
       this.init_loading = false;
-      this.timer = setInterval(this.getLatestTrackingStatuses, 60000);
+      this.timer = setInterval(this.getLatestTrackingStatuses, 10000);
     },
     beforeDestroy () {
       this.cancelAutoUpdate();

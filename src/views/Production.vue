@@ -94,7 +94,7 @@
             cols="12"
             md="12"
           >
-            <card-production-schedule :loading="loading" :shipments="shipments" :trackings="trackings" @itemSelected="onNewItems"></card-production-schedule>
+            <card-production-schedule :loading="loading" :shipments="shipments" :trackings="trackings" ></card-production-schedule>
           </v-col>
         </v-row>
       </v-col>
@@ -154,7 +154,7 @@ export default {
   //props:["dataset_values"],
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
-    title: 'Dashboard',
+    title: 'Production',
   },
   components: {
     CardPageTitle,

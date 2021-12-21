@@ -16,6 +16,7 @@ import {
   BarChart,
   PieChart,
   LineChart,
+  CustomChart,
 } from 'echarts/charts'
 import {
   GridComponent,
@@ -44,7 +45,8 @@ use([
   SVGRenderer,
   MarkLineComponent,
   PolarComponent,
-  GraphicComponent
+  GraphicComponent,
+  CustomChart
 ]);
 
 Vue.config.productionTip = false

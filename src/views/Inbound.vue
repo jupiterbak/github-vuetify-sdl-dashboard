@@ -154,7 +154,7 @@ export default {
   //props:["dataset_values"],
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
-    title: 'Dashboard',
+    title: 'Inbound',
   },
   components: {
     CardPageTitle,

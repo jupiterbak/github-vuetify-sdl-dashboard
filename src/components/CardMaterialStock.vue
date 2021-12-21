@@ -54,12 +54,13 @@
 </template>
 
 <script>
-
-
+var _ = require('lodash');
+import moment from 'moment';
 export default {
-    props:["loading", "trackings", "shipments", "dataset_values"],
+    props:["loading", "dataset_values"],
     data() {
         return {
+            material_stock:{},
             option: {
                 title: {
                     text: 'Predicted Material Stock'
@@ -67,34 +68,71 @@ export default {
                 responsive:true,
                 calculable : true,
                 backgroundColor: 'transparent',
+                legend: {
+                    type: 'scroll',
+                    orient: 'vertical',
+                    right: 0,
+                    top: 30,
+                    bottom: 10,
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
-                    type: 'cross',
-                    label: {
-                        backgroundColor: '#6a7985'
-                    }
+                        type: 'cross',
+                        animation: false,
+                        label: {
+                            backgroundColor: '#505765'
+                        }
                     }
                 },
-                legend: {
-                    data: ['MAT0001(Screw)', 'MAT0002(Screw_M16)', 'MAT0003']
-                },
+                // legend: {
+                //     data: []
+                // },
                 toolbox: {
                     feature: {
-                    saveAsImage: {}
+                        magicType: {
+                            type: ['stack']
+                        },
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {}
                     }
                 },
                 grid: {
                     left: '3%',
-                    right: '4%',
+                    right: '120',
                     bottom: '3%',
                     containLabel: true
                 },
+                dataZoom: [
+                  {
+                    type: 'slider',
+                    filterMode: 'weakFilter',
+                    showDataShadow: false,
+                    labelFormatter: ''
+                  },
+                  {
+                    type: 'inside',
+                  }
+                ],
                 xAxis: [
                     {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                        type: 'time',
+                        boundaryGap:false,
+                        axisLabel: {
+                            formatter: (function(value){
+                                return moment(value).format("YYYY-MM-DD HH:mm");
+                            })
+                        },
+                        silent: false,
+                        splitLine: {
+                            show: false
+                        },
+                        splitArea: {
+                            show: false
+                        }
                     }
                 ],
                 yAxis: [
@@ -102,44 +140,77 @@ export default {
                     type: 'value'
                     }
                 ],
-                series: [
-                    {
-                        name: 'MAT0001(Screw)',
-                        type: 'line',
-                        stack: 'Total',
-                        step: 'start',
-                        areaStyle: {},
-                        emphasis: {
-                            focus: 'series'
-                        },
-                        data: [1200, 1320, 1010, 1340, 900, 2300, 2100]
-                        },
-                    {
-                        name: 'MAT0002(Screw_M16)',
-                        type: 'line',
-                        stack: 'Total',
-                        areaStyle: {},
-                        step: 'start',
-                        emphasis: {
-                            focus: 'series'
-                        },
-                        data: [2200, 1820, 1910, 2340, 2900, 3300, 3100]
-                    },
-                    {
-                        name: 'MAT0003',
-                        type: 'line',
-                        stack: 'Total',
-                        areaStyle: {},
-                        emphasis: {
-                            focus: 'series'
-                        },
-                        step: 'start',
-                        data: [150, 232, 201, 154, 190, 330, 410]
-                    },
-                ]}
+                series: [],
+                animationEasing: 'elasticOut',
+            }
         };
     },
+    methods: {
+        getMaterialStock(items) {
+            var rslts = _.transform(items, function(result, shipment) {
+                shipment.packages.forEach(_package => {
+                    _package.material.forEach(material => {
+                        result.push({
+                            delivery_date: shipment.delivery_date,
+                            shipment_id: shipment.ax4_id,
+                            predicted_delivery_date: shipment.predicted_delivery_date,
+                            material_id: material.material_id,
+                            material_status: material.status,
+                            quantity: material.quantity,
+                            risk	: material.risk,
+                            package_reference: _package.reference,
+                            material_reference: material.reference,
+                            end_date: shipment.end_date
+                        })
+                    });
+                });
+            }, []);
+            
+            return rslts;
+        },
+    },
     mounted(){
+        var rslts = this.getMaterialStock(this.dataset_values);
+        this.material_stock = _.groupBy(rslts, function(value) {
+                return value.material_id;
+            });
+        //console.log(this.material_stock);
+
+        var timestamp_objects = _.groupBy(rslts, function(value) {
+            return value.delivery_date;
+        });
+        var timestamps = _.keys(timestamp_objects);
+        timestamps = _.sortBy(timestamps, [function(o) { return o; }]);
+        // console.log(timestamps);
+
+        this.option.series = _.map(this.material_stock, function(material_deliveries, material_id) { 
+            return {
+                        name: material_id,
+                        type: 'line',
+                        stack: 'Total',
+                        step: 'end',
+                        areaStyle: {
+                            opacity: 0.5
+                        },
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        // emphasis: {
+                        //     itemStyle: {
+                        //         shadowBlur: 10,
+                        //         shadowOffsetX: 0,
+                        //         shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        //     }
+                        // },
+                        data:  _.map(timestamps, function(_timestamp){
+                            var cul_value = _.reduce(material_deliveries, (rslt, mat_delivery) => {return mat_delivery.delivery_date < _timestamp? rslt + mat_delivery.quantity: rslt}, 0);
+                            return [_timestamp, cul_value]
+                        })
+                    }
+        });
+        //this.option.legend.data = _.keys(this.material_stock);
+        // Update everything
+        this.$forceUpdate();
     }
 };
 </script>

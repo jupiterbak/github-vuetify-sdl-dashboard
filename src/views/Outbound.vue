@@ -5,7 +5,7 @@
         cols="12"
         md="12"
       >
-        <card-page-title title="Outbound (Ongoing)" icon='mdi-truck-fast'></card-page-title>
+        <card-page-title title="Outbound (Ongoing)" icon='mdi-human-dolly'></card-page-title>
       </v-col>
     </v-row>
     <v-row>

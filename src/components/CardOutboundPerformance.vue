@@ -19,11 +19,11 @@
         color="grey"
       >
         <v-icon
-            class="orange lighten-1"
+            class="brown darken-1"
             x-large
             dark
           >
-            mdi-truck-fast
+            mdi-human-dolly
           </v-icon>
       </v-list-item-avatar>
     </v-list-item>
