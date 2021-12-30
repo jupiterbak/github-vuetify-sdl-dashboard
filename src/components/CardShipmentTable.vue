@@ -62,7 +62,7 @@
                     { text: 'Receiver', value: 'receiver.name' },
                     { text: 'PickUp', value: 'pickup_date' },
                     { text: 'Planned', value: 'delivery_date' },
-                    { text: 'Predicted', value: 'predicted_delivery_date' },
+                    { text: 'Predicted', value: 'delivery_date' },
                     { text: 'Provider', value: 'logistic_provider.name' }
                 ],
                 headers: [

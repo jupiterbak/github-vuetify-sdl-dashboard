@@ -50,10 +50,40 @@
               layer-type="base"
             />
             
+            <l-layer-group v-for="(outbound,j) in outbounds" :key="j" ref="o_network">
+              <l-feature-group  ref="outbound_" :visible="outbound_selected">                
+                <l-polyline :lat-lngs="outbound.polyline" :weight="getVolumeScale(outbounds, j, 5)" :opacity="0.4" :color="'#2196f3'" >
+                  <l-tooltip > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver></l-tooltip>
+                  <l-popup > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver> </l-popup>
+                </l-polyline>
+                <l-circle
+                  :lat-lng="[outbound.receiver.lat, outbound.receiver.long]"
+                  :radius="getVolumeScale(outbounds, j, 30000)"
+                  fill
+                  :fillColor="'#2196f3'"
+                  :stroke="false"
+                  :fillOpacity="0.5"
+                >
+                  <l-tooltip > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver></l-tooltip>
+                  <l-popup > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver> </l-popup>
+                </l-circle>
+                <l-circle
+                  :lat-lng="[outbound.receiver.lat, outbound.receiver.long]"
+                  :radius="getVolumeScale(outbounds, j, 20000)"
+                  fill
+                  :fillColor="'#FFAB00'"
+                  :stroke="false"
+                  :fillOpacity="0.5"
+                >
+                  <l-tooltip > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver></l-tooltip>
+                  <l-popup > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver> </l-popup>
+                </l-circle>
+              </l-feature-group>
+            </l-layer-group>
             <l-layer-group v-for="(inbound,i) in inbounds" :key="i" ref="network">
               <l-feature-group  ref="inbound_" :visible="inbound_selected">                
-                <l-polyline :lat-lngs="inbound.polyline" :weight="getVolumeScale(inbounds, i, 5)" :opacity="0.4" :color="'#BF360C'" >
-                  <tooltip-map-sender :inbound="inbound"> </tooltip-map-sender>
+                <l-polyline :lat-lngs="inbound.polyline" :weight="getVolumeScale(inbounds, i, 10)" :opacity="0.4" :color="'#BF360C'" >                  
+                   <l-tooltip > <tooltip-map-sender :inbound="inbound"> </tooltip-map-sender></l-tooltip>
                 </l-polyline>
                 <l-circle
                   :lat-lng="[inbound.sender.lat, inbound.sender.long]"
@@ -93,7 +123,7 @@
 
                 <l-circle
                   :lat-lng="[inbound.receiver.lat, inbound.receiver.long]"
-                  :radius="15000"
+                  :radius="20000"
                   fill
                   :fillColor="'#FFAB00'"
                   :stroke="false"
@@ -104,36 +134,7 @@
                 </l-circle>
               </l-feature-group>
             </l-layer-group>
-            <l-layer-group v-for="(outbound,i) in outbounds" :key="i" ref="o_network">
-              <l-feature-group  ref="outbound_" :visible="outbound_selected">                
-                <l-polyline :lat-lngs="outbound.polyline" :weight="getVolumeScale(outbounds, i, 5)" :opacity="0.4" :color="'#1A237E'" >
-                  <l-tooltip > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver></l-tooltip>
-                  <l-popup > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver> </l-popup>
-                </l-polyline>
-                <l-circle
-                  :lat-lng="[outbound.receiver.lat, outbound.receiver.long]"
-                  :radius="(outbounds, 30000, 5)"
-                  fill
-                  :fillColor="'#1A237E'"
-                  :stroke="false"
-                  :fillOpacity="0.5"
-                >
-                  <l-tooltip > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver></l-tooltip>
-                  <l-popup > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver> </l-popup>
-                </l-circle>
-                <l-circle
-                  :lat-lng="[outbound.receiver.lat, outbound.receiver.long]"
-                  :radius="15000"
-                  fill
-                  :fillColor="'#FFAB00'"
-                  :stroke="false"
-                  :fillOpacity="0.5"
-                >
-                  <l-tooltip > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver></l-tooltip>
-                  <l-popup > <tooltip-map-receiver :outbound="outbound"> </tooltip-map-receiver> </l-popup>
-                </l-circle>
-              </l-feature-group>
-            </l-layer-group>
+
             
             <l-control position="topright" >
               <v-form ref="form">
@@ -144,7 +145,6 @@
                   label="Production Site"
                   persistent-hint
                   hide-details
-                  clearable
                   single-line chips
                   class="text-sm-caption"
                   @change="siteSelected"                 

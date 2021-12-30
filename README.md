@@ -1,4 +1,4 @@
-# my-app
+# Horizontal Integration DEMO [Dashboard]
 
 ## Project setup
 ```
