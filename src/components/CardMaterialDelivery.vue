@@ -80,7 +80,7 @@ export default {
                     }
                 },
                 tooltip : {
-                    trigger: 'axis',
+                    trigger: 'item',
                     axisPointer: {
                         type: 'cross'
                     },
@@ -137,93 +137,99 @@ export default {
                         }
                     },
                 ],
-                series : [
+                series : this.getDeliverySeries(this.dataset_values)
+            }
+        };
+    },
+    methods: {
+        getDeliverySeries(items) {
+            var rslts = _.reduce(items, function(rslt, item){
+                return _.concat(rslt, [
                     {
                         name:'Missed',
                         type:'bar',
                         barWidth: 5,
-                        stack: 'Ad',
+                        stack: `${item.ax4_id}_${item.sender.sender_id}_${item.receiver.receiver_id}`,
                         smooth:true,
                         itemStyle: {normal: {areaStyle: {type: 'default'}}},
-                        data: _.map(this.dataset_values, function(item){
-                            return [item.delivery_date, item.missed, item.ax4_id]
-                        })
+                        data:[[item.delivery_date, item.missed, item.ax4_id]]
                     },
                     {
                         name:'Critical',
                         type:'bar',
                         barWidth: 5,
-                        stack: 'Ad',
+                        stack: `${item.ax4_id}_${item.sender.sender_id}_${item.receiver.receiver_id}`,
                         smooth:true,
                         itemStyle: {normal: {areaStyle: {type: 'default'}}},
-                        data: _.map(this.dataset_values, function(item){
-                            return [item.delivery_date, item.critical, item.ax4_id]
-                        }),
-                        markLine : {
-                            silent: true, // ignore mouse events
-                            label: {show: false},
-                            data : [
-                                // Horizontal Axis (requires valueIndex = 0)
-                                {type: 'average', name: 'Line Marker', valueIndex: 0},
-                            ]
-                        },
+                        data: [[item.delivery_date, item.critical, item.ax4_id]],
+                        // markLine : {
+                        //     silent: true, // ignore mouse events
+                        //     label: {show: false},
+                        //     data : [
+                        //         // Horizontal Axis (requires valueIndex = 0)
+                        //         {type: 'average', name: 'Line Marker', valueIndex: 0},
+                        //     ]
+                        // },
                     },
                     {
                         name:'Risk',
                         type:'bar',
                         barWidth: 5,
-                        stack: 'Ad',
+                        stack: `${item.ax4_id}_${item.sender.sender_id}_${item.receiver.receiver_id}`,
                         smooth:true,
                         itemStyle: {normal: {areaStyle: {type: 'default'}}},
-                        data: _.map(this.dataset_values, function(item){
-                            return [item.delivery_date, item.risk, item.ax4_id]
-                        })
+                        data: [[item.delivery_date, item.risk, item.ax4_id]]
                     },
                     {
                         name:'On Time',
                         type:'bar',
                         barWidth: 5,
-                        stack: 'Ad',
+                        stack: `${item.ax4_id}_${item.sender.sender_id}_${item.receiver.receiver_id}`,
                         smooth:true,
                         itemStyle: {normal: {areaStyle: {type: 'default'}}},
-                        data: _.map(this.dataset_values, function(item){
-                            return [item.delivery_date, item.on_time, item.ax4_id]
-                        }),
+                        data: [[item.delivery_date, item.on_time, item.ax4_id]]
                     },
                     {
                         name:'Early',
                         type:'bar',
                         barWidth: 5,
-                        stack: 'Ad',
+                        stack: `${item.ax4_id}_${item.sender.sender_id}_${item.receiver.receiver_id}`,
                         smooth:true,
                         itemStyle: {normal: {areaStyle: {type: 'default'}}},
-                        data: _.map(this.dataset_values, function(item){
-                            return [item.delivery_date, item.early, item.ax4_id]
-                        }),
+                        data: [[item.delivery_date, item.early, item.ax4_id]],
                         
-                    },
-                    {
-                        name:'Today',
-                        type:'bar',
-                        barWidth: 5,
-                        stack: 'Ad',
-                        smooth:true,
-                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
-                        data: _.map(this.dataset_values, function(item){
-                            return [moment(item.delivery_date).endOf('month').fromNow() , 0, item.ax4_id]
-                        }),
-                        markLine : {
-                            silent: true, // ignore mouse events
-                            label: {show: false},
-                            data : [
-                                // Horizontal Axis (requires valueIndex = 0)
-                                {type: 'average', name: 'Line Marker', valueIndex: 0},
-                            ]
-                        },
-                    },
-                ]
-            }
-        };
+                    }
+                ]); 
+            }, []);
+            
+            rslts.push({
+                name:'Today',
+                type:'bar',
+                barWidth: 5,
+                stack: 'Ad',
+                smooth:true,
+                itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                data: [[moment().endOf('day').format() , 0, "62950654"]],
+                markLine : {
+                    silent: true, // ignore mouse events
+                    label: {show: false},
+                    data : [
+                        // Horizontal Axis (requires valueIndex = 0)
+                        {type: 'average', name: 'Line Marker', valueIndex: 0},
+                    ]
+                },
+            });
+            rslts.push({
+                type:'bar',
+                barWidth: 5,
+                stack: 'Ad',
+                smooth:true,
+                itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                data: [[moment().add(15, 'days').format() , 0, "62950654"]],
+            });
+            
+            return rslts;
+        },
     },
     mounted(){
     }

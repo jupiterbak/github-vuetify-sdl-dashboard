@@ -259,8 +259,7 @@ export default {
             _.set(outbounds, '[' + j+ '].polyline', [[outbound.sender.lat, outbound.sender.long], [outbound.receiver.lat, outbound.receiver.long]]);
           }
           this.outbounds = outbounds;
-          
-                   
+                             
           this.$forceUpdate();
         } catch (err) {
           return [];
@@ -268,7 +267,6 @@ export default {
       },
       async populateProductionSite() {
         try {
-          this.loading = true;
           const res = await axiosInstance.get("inbound/39041");
           var inbounds = res.data;
           for (let j = 0; j < inbounds.length; j++) {
@@ -283,6 +281,24 @@ export default {
                   id: _inb.receiver.receiver_id
                 } 
           });
+
+          const res_outbound = await axiosInstance.get("outbound/39041");
+          var outbounds = res_outbound.data;
+          //console.log(outbounds);
+
+          outbounds = _.filter(outbounds, function(o) {
+            var sites = _.filter(this.production_sites, function(site){
+              site.id === o.sender.sender_id;
+            })  
+            return sites.length > 0; 
+          });
+          for (let j = 0; j < outbounds.length; j++) {
+            const outbound = outbounds[j]; 
+            _.set(outbounds, '[' + j+ '].polyline', [[outbound.sender.lat, outbound.sender.long], [outbound.receiver.lat, outbound.receiver.long]]);
+          }
+          this.outbounds = outbounds;
+          //console.log(this.outbounds);
+
         } catch (err) {
           return [];
         }

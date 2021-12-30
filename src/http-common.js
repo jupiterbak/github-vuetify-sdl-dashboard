@@ -3,10 +3,10 @@ const oauth = require('axios-oauth-client');
 const tokenProvider = require('axios-token-interceptor');
 
 const getOwnerCredentials = oauth.client(axios.create(), {
-  url: 'http://a97765db335f5419f95d0ec48c33ee1d-1963285741.us-east-1.elb.amazonaws.com/auth/realms/mendix/protocol/openid-connect/token',
+  url: 'https://a6627fdbe1c944516b2700f55562b54b-1830696600.us-east-1.elb.amazonaws.com/auth/realms/mendix/protocol/openid-connect/token',
   grant_type: 'password',
   client_id: 'mendix-api',
-  client_secret: '39810546-8bc2-4874-8ad0-acd72192b452',
+  client_secret: 'lnsRorjfEdWlt0WrZA2GzDC9r1pBwkh7',
   username: 'test-admin',
   password: 'password',
   scope: 'openid'

@@ -244,7 +244,7 @@
       this.init_loading = true;
       await this.getLatestTrackingStatuses();
       this.init_loading = false;
-      this.timer = setInterval(this.getLatestTrackingStatuses, 10000);
+      this.timer = setInterval(this.getLatestTrackingStatuses, 60000);
     },
     beforeDestroy () {
       this.cancelAutoUpdate();
